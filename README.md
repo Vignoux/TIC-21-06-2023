@@ -1,4 +1,4 @@
-
+```
 class pessoa {
     nome: string;
     código: number
@@ -27,3 +27,4 @@ function group_Name(){
         codigo = 24145
     }
 }
+```
