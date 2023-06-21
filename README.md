@@ -3,7 +3,6 @@ class pessoa {
     código: number
 }
 
-
 function group_Name(){
     var Arthur = new pessoa{
         nome = "Arthur Pandolfo de Abreu Sampaio",
