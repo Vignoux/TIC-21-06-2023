@@ -2,9 +2,9 @@ class pessoa {
     nome: string;
     código: number
 }
-
 function group_Name(){
-    var Arthur = new pessoa{
+    
+     var Arthur = new pessoa{
         nome = "Arthur Pandolfo de Abreu Sampaio",
         codigo = 24509
     }
