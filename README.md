@@ -1,3 +1,4 @@
+
 class pessoa {
     nome: string;
     código: number
