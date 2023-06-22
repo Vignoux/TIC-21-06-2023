@@ -1,8 +1,6 @@
 async function consultaPosts(){
     //consome  API e guarda o resultado em Posts (variavel)
-    let aux = document.cookie.split('=')
-    let userId = Number(aux[1])
-    const posts = await fetch('http://localhost:3333/posts') //puxa lá do back a pagina q linka no BD
+    const posts = await fetch('http://localhost:3333/itens') //puxa lá do back a pagina q linka no BD
                             .then(resposta =>{ //espera a resposta do server voltar
                                 return resposta.json()   //transoforma a resposta em .json
                             })
@@ -10,7 +8,7 @@ async function consultaPosts(){
     //percorre cada post presente na variavel post ( tipo um vetor )
     posts.forEach( post =>{
         //acumula na variavel conteudoTabela os dados de cada post
-        conteudoTabela +=`<tr> <td> ${post.id} </td> <td> ${post.title} </td> <td> ${post.content} </td> <td> ${post.published}<td> <button onClick="remover(${post.id})"><i class="bi bi-trash"></i></button></td><td><button onClick="editar(${post.id},'${post.title}','${post.content}',${post.published})"<i class="bi bi-pencil"></button></i> </td> </tr>`
+        conteudoTabela +=`<tr> <td> ${post.id} </td> <td> ${post.nome} </td> <td> ${post.setor} </td> <td> ${post.quantidade}<td> <button onClick="remover(${post.id})"><i class="bi bi-trash"></i></button></td><td><button onClick="editar(${post.id},'${post.nome}','${post.setor}',${post.quantidade})"<i class="bi bi-pencil"></button></i> </td> </tr>`
     })  
     // bora jogar os dados no HTML
     document.getElementById("corpoTabela").innerHTML = conteudoTabela
@@ -22,7 +20,7 @@ async function remover(id){
         return
     }
     //clicou em YE
-    await fetch(`http://localhost:3333/post/${id}`,{
+    await fetch(`http://localhost:3333/x/${id}`,{
         method: 'DELETE'
     })
     .then(resposta =>{
@@ -34,28 +32,29 @@ async function remover(id){
     consultaPosts()
 }
 
-function editar(id,title,content,published){
+function editar(id,nome,setor,quantidade){
     document.getElementById("id").value = id;
-    document.getElementById("title").value = title;
-    document.getElementById("content").value = content;
-    (published) ? document.getElementById("sim").checked = true: document.getElementById("nao").checked = true;
+    document.getElementById("nome").value = nome;
+    document.getElementById("setor").value = setor;
+    document.getElementById("quantidade").value = quantidade;
+    document.getElementById("validade").value = validade;
 }
 
 //consome que api que cadastra um post no banco de dados
 async function confirmar(){
     //recupera os dados do formulário
     const id = Number(document.getElementById("id").value)
-    const title= document.getElementById("title").value
-    const content = document.getElementById("content").value
-    const published = document.getElementById("sim").checked //responde se ta checado ou nn (true/false)
+    const nome= document.getElementById("nome").value
+    const setor = document.getElementById("setor").value
+    const quantidade = document.getElementById("quantidade").value //responde se ta checado ou nn (true/false)
     
 
     if(id)   { //ele atualiza
-        corpo = {id,title,content,published}    //aqui passa com ID pq ja que ta atualizando tem q ter o msm id do post original
+        corpo = {id,nome,setor,quantidade}    //aqui passa com ID pq ja que ta atualizando tem q ter o msm id do post original
         verbo = 'PUT'
     }
     else { 
-        corpo = {title,content,published} //aqui ta criando do zero int pode deixar o BD criar o id tumatico 🍕🍕 
+        corpo = {nome,setor,quantidade} //aqui ta criando do zero int pode deixar o BD criar o id tumatico 🍕🍕 
         verbo = 'POST'
     }
 
@@ -64,7 +63,7 @@ async function confirmar(){
         method: verbo,   //e ja que dependendo se tem um ID ou nao aqui tem q ser variavel o metodo
         body: JSON.stringify(corpo), // JSON transformado em string
         headers: {
-            "Content-Type": "application/json;charset=UTF-8"
+            "setor-Type": "application/json;charset=UTF-8"
         }
     })
     .then(resposta =>{
@@ -78,8 +77,8 @@ async function confirmar(){
 
 //limpa os campos
 document.getElementById("id").value=""
-document.getElementById("title").value = ""
-document.getElementById("content").value = ""
+document.getElementById("nome").value = ""
+document.getElementById("setor").value = ""
 document.getElementById("sim").checked = false
 document.getElementById("nao").checked =false
 }
